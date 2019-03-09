@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as moment from 'moment';
 import * as frontmatter from 'gray-matter';
-import { Commit, DiffFile, Object, Repository } from 'nodegit';
+import { Commit, DiffFile, Object, Repository, Revparse } from 'nodegit';
 
 interface Frontmatter {
   title: string;
@@ -29,8 +29,9 @@ const isDateUpdated = async (commit: Commit, firstFile: DiffFile, lastFile: Diff
  */
 const checkCommits = async (firstCommitHash: string, lastCommitHash: string): Promise<void> => {
   const repository = await Repository.open(path.join(__dirname, '.git'));
-  const firstCommit = await repository.getCommit(firstCommitHash);
-  const lastCommit = await repository.getCommit(lastCommitHash);
+
+  const firstCommit = await repository.getCommit((await Revparse.single(repository, firstCommitHash)).id());
+  const lastCommit = await repository.getCommit((await Revparse.single(repository, lastCommitHash)).id());
   const lastCommitObject = await Object.lookup(repository, lastCommit.id(), Object.TYPE.COMMIT);
 
   const files: string[] = [];
@@ -40,7 +41,7 @@ const checkCommits = async (firstCommitHash: string, lastCommitHash: string): Pr
     const patches = await diff.patches();
     for (const patch of patches) {
       // Ignore new files and README.md
-      if (!patch.isAdded() && !patch.newFile().path().includes('README.md')) {
+      if (!patch.isAdded() && patch.newFile().path().match(/\.md$/) && !patch.newFile().path().includes('README.md')) {
         if (!await isDateUpdated(lastCommit, patch.oldFile(), patch.newFile())) {
           files.push(patch.newFile().path());
         }
@@ -53,8 +54,6 @@ const checkCommits = async (firstCommitHash: string, lastCommitHash: string): Pr
     process.exit(1);
   }
 };
-
-console.log(process.env.TRAVIS_COMMIT_RANGE);
 
 if (process.env.TRAVIS_COMMIT_RANGE) {
   const commits = process.env.TRAVIS_COMMIT_RANGE.split('...');
