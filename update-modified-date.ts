@@ -1,7 +1,15 @@
-const fs = require('fs');
-const slash = require('slash');
-const frontmatter = require('gray-matter');
-const moment = require('moment');
+import * as fs from 'fs';
+import slash from 'slash';
+import * as moment from 'moment';
+import * as frontmatter from 'gray-matter';
+
+interface Frontmatter {
+  title: string;
+  description: string;
+  priority: number;
+  date_published: string;
+  date_modified: string;
+}
 
 /**
  * Automatically update the `date_modified` field of a page to the current date.
@@ -13,7 +21,7 @@ process.argv.slice(2).forEach(dirtyPath => {
     return;
   }
 
-  const page = frontmatter(fs.readFileSync(path, 'utf-8'));
+  const page = frontmatter(fs.readFileSync(path, 'utf-8')) as { content: string; data: Frontmatter };
 
   const newData = {
     ...page.data,
