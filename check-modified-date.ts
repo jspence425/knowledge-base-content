@@ -39,8 +39,8 @@ const checkCommits = async (firstCommitHash: string, lastCommitHash: string): Pr
   for (const diff of diffs) {
     const patches = await diff.patches();
     for (const patch of patches) {
-      // Ignore new files
-      if (!patch.isAdded()) {
+      // Ignore new files and README.md
+      if (!patch.isAdded() && !patch.newFile().path().includes('README.md')) {
         if (!await isDateUpdated(lastCommit, patch.oldFile(), patch.newFile())) {
           files.push(patch.newFile().path());
         }
