@@ -54,6 +54,8 @@ const checkCommits = async (firstCommitHash: string, lastCommitHash: string): Pr
   }
 };
 
+console.log(process.env.TRAVIS_COMMIT_RANGE);
+
 if (process.env.TRAVIS_COMMIT_RANGE) {
   const commits = process.env.TRAVIS_COMMIT_RANGE.split('...');
   checkCommits(commits[0], commits[1])
