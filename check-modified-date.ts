@@ -21,7 +21,11 @@ const isDateUpdated = async (commit: Commit, firstFile: DiffFile, lastFile: Diff
   const firstFileContents = frontmatter(await getFile(commit, firstFile.path())) as { data: Frontmatter };
   const lastFileContents = frontmatter(await getFile(commit, lastFile.path())) as { data: Frontmatter };
 
-  return !moment.utc(firstFileContents.data.date_modified).isSame(moment.utc(lastFileContents.data.date_modified));
+  const now = moment.utc();
+  const firstTime = moment.utc(firstFileContents.data.date_modified);
+  const lastTime = moment.utc(lastFileContents.data.date_modified);
+
+  return now.isSame(lastTime) || !firstTime.isSame(lastTime);
 };
 
 /**
