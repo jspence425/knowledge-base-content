@@ -8,6 +8,12 @@ date_published: '2020-08-10'
 date_modified: '2021-01-15'
 ---
 
+<Alert>
+
+As Ethereum gas fees can be a high barrier to entry, we've added support for MyCrypto Memberships on the xDai network. Buying a MyCrypto Membership on xDai is no different than buying one on Ethereum -- as long as the account that holds the MyCrypto Membership NFT is connected to MyCrypto, you're good to go.
+
+</Alert>
+
 The MyCrypto Membership is a monthly subscription that gives you additional features and helps to support MyCrypto’s future developments.
 
 Buy a membership by visiting [app.mycrypto.com/membership](https://app.mycrypto.com/membership). This link is also available on your dashboard.
@@ -37,6 +43,10 @@ $4.00 per month, or you can purchase multiple month packages at a discounted rat
 ### How does the MyCrypto Membership work?
 
 We use the [Unlock Protocol](https://unlock-protocol.com/) for this. You’ll be purchasing a token that unlocks features of MyCrypto when we detect that you hold that token. Each token has an expiration date according to the duration of membership you purchased. One membership unlocks the membership features for all the addresses in your interface, so you don't need additional memberships.
+
+### What cryptocurrencies can I use to buy a MyCrypto Membership?
+
+You can currently purchase a MyCrypto Membership on the Ethereum network with DAI or [ETH](https://support.mycrypto.com/how-to/getting-started/how-to-buy-ether-with-usd), or on the xDAI network with [xDAI](https://support.mycrypto.com/general-knowledge/scaling/how-to-get-xdai). We will likely add more payment methods in the future - stay tuned!
 
 ### Can I give my token to someone else?
 
